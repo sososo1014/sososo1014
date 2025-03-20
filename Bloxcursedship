@@ -1,0 +1,57 @@
+local userInputService = game:GetService("UserInputService")
+local player = game.Players.LocalPlayer
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+local teleportButton = Instance.new("TextButton")
+teleportButton.Size = UDim2.new(0, 200, 0, 50)
+teleportButton.Position = UDim2.new(0, 100, 0, 100)
+teleportButton.Text = "ケツ穴"
+teleportButton.Parent = screenGui
+
+local dragging = false
+local dragInput, dragStart, startPos
+
+teleportButton.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = teleportButton.Position
+    end
+end)
+
+teleportButton.InputChanged:Connect(function(input)
+    if dragging and (input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseMovement) then
+        local delta = input.Position - dragStart
+        teleportButton.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+teleportButton.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false
+    end
+end)
+
+teleportButton.MouseButton1Click:Connect(function()  
+    local firstPosition = Vector3.new(919.00, 125.12, 32869.00)
+    local secondPosition = Vector3.new(949.38, 125.12, 32697.76)
+
+player.Character:SetPrimaryPartCFrame(CFrame.new(firstPosition))
+
+    wait(0.1)  
+
+   player.Character:SetPrimaryPartCFrame(CFrame.new(secondPosition))
+end)
+
+teleportButton.TouchTap:Connect(function()  
+    local firstPosition = Vector3.new(919.00, 125.12, 32869.00)
+    local secondPosition = Vector3.new(949.38, 125.12, 32697.76)
+
+    player.Character:SetPrimaryPartCFrame(CFrame.new(firstPosition))
+
+    wait(0.1)  
+
+player.Character:SetPrimaryPartCFrame(CFrame.new(secondPosition))
+end)
